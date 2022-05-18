@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const routes = <>
-        <li><Link to={'/'}>Home</Link></li>
-        <li><Link to={'/allTodos'}>ToDo List</Link></li>
+        <li><Link className='text-lg font-semibold' to={'/'}>Home</Link></li>
+        <li><Link className='text-lg font-semibold' to='/login'>Login</Link></li>
     </>
     return (
         <div className="navbar">
@@ -17,15 +17,12 @@ const Navbar = () => {
                         {routes}
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">ToDo</a>
+                <Link to={'/'} className="btn btn-ghost normal-case text-2xl">ToDo</Link>
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <div className="navbar-end hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
                     {routes}
                 </ul>
-            </div>
-            <div className="navbar-end">
-                <Link to='/login' className='btn btn-ghost'>Login</Link>
             </div>
         </div>
     );

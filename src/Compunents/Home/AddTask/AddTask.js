@@ -2,14 +2,15 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 
-const AddTask = () => {
+const AddTask = ({ refetch }) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const onSubmit = async data => {
+
         const todo = {
             name: data.taskName,
-            description: data.description
+            description: data.description,
+            isComplete: false,
         }
-        console.log(JSON.stringify(todo))
         fetch('http://localhost:5000/addTodo', {
             method: 'POST',
             headers: {
@@ -21,7 +22,8 @@ const AddTask = () => {
             .then(data => {
                 if (data.insertedId) {
                     reset();
-                    toast.success('Task Added Successfully')
+                    toast.success('Task Added Successfully');
+                    refetch();
                 }
             })
     }
