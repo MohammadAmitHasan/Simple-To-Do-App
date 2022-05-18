@@ -26,9 +26,9 @@ const AddTask = () => {
             })
     }
     return (
-        <div>
+        <div className='mb-10 mt-2'>
             <form className='grid grid-cols-1 gap-3' onSubmit={handleSubmit(onSubmit)}>
-                <div className="shadow-2xl p-5 rounded-lg form-control w-full mx-auto max-w-xs grid grid-cols-1 gap-5">
+                <div className="shadow-xl p-5 rounded-lg form-control w-full mx-auto max-w-xs grid grid-cols-1 gap-5">
                     <h1 className='text-2xl text-center font-semibold text-primary'>Add a New Task</h1>
                     <div>
                         <label className="label">

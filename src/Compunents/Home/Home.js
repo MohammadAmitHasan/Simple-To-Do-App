@@ -1,10 +1,12 @@
 import React from 'react';
-import AddTask from '../AddTask/AddTask';
+import AllTodos from '../AllTodos/AllTodos';
+import AddTask from './AddTask/AddTask';
 
 const Home = () => {
     return (
         <div>
             <AddTask></AddTask>
+            <AllTodos></AllTodos>
         </div>
     );
 };
