@@ -28,8 +28,6 @@ const Home = () => {
             })
     )
 
-    console.log(data)
-
     if (isLoading || data.message === 'Forbidden access') {
         return <Loading></Loading>
     }
