@@ -11,7 +11,6 @@ import AddTask from './AddTask/AddTask';
 
 const Home = () => {
     const [user] = useAuthState(auth);
-    console.log(user.email);
     const navigate = useNavigate();
     const { data, isLoading, refetch } = useQuery('todo', () =>
         fetch(`https://hasans-simple-todo-app.herokuapp.com/todos?userEmail=${user?.email}`, {
@@ -29,7 +28,9 @@ const Home = () => {
             })
     )
 
-    if (isLoading) {
+    console.log(data)
+
+    if (isLoading || data.message === 'Forbidden access') {
         return <Loading></Loading>
     }
 
