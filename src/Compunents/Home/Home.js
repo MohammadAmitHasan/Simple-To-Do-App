@@ -1,16 +1,32 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import auth from '../../Firebase.init';
 import AllTodos from '../AllTodos/AllTodos';
 import Loading from '../Loading/Loading';
 import AddTask from './AddTask/AddTask';
 
 const Home = () => {
+    const navigate = useNavigate();
     const { data, isLoading, refetch } = useQuery('todo', () =>
-        fetch('http://localhost:5000/todos')
-            .then(res => res.json())
+        fetch('https://hasans-simple-todo-app.herokuapp.com/todos', {
+            headers: {
+                'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem('accessToken');
+                    signOut(auth);
+                    navigate('/login')
+                }
+                return res.json()
+            })
     )
-    if (isLoading) {
+
+    if (isLoading || data.message === 'Forbidden access') {
         return <Loading></Loading>
     }
 
@@ -18,8 +34,11 @@ const Home = () => {
     const handleDelete = id => {
         const confirm = window.confirm('Are you sure.?')
         if (confirm) {
-            fetch(`http://localhost:5000/todo/${id}`, {
-                method: 'DELETE'
+            fetch(`https://hasans-simple-todo-app.herokuapp.com/todo/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
             })
                 .then(res => res.json())
                 .then(data => {
@@ -38,9 +57,10 @@ const Home = () => {
             isComplete: true
         }
 
-        fetch(`http://localhost:5000/todo/${id}`, {
+        fetch(`https://hasans-simple-todo-app.herokuapp.com/todo/${id}`, {
             method: 'PUT',
             headers: {
+                'authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(updateToDo),

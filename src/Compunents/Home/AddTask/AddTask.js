@@ -11,7 +11,7 @@ const AddTask = ({ refetch }) => {
             description: data.description,
             isComplete: false,
         }
-        fetch('http://localhost:5000/addTodo', {
+        fetch('https://hasans-simple-todo-app.herokuapp.com/addTodo', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
