@@ -1,20 +1,26 @@
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import auth from '../../../Firebase.init';
 
 const AddTask = ({ refetch }) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    const onSubmit = async data => {
 
+    const [user] = useAuthState(auth);
+
+    const onSubmit = async data => {
         const todo = {
             name: data.taskName,
             description: data.description,
             isComplete: false,
+            user: user.email,
         }
         fetch('https://hasans-simple-todo-app.herokuapp.com/addTodo', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': `Bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify(todo)
         })

@@ -1,5 +1,6 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,9 +10,11 @@ import Loading from '../Loading/Loading';
 import AddTask from './AddTask/AddTask';
 
 const Home = () => {
+    const [user] = useAuthState(auth);
+    console.log(user.email);
     const navigate = useNavigate();
     const { data, isLoading, refetch } = useQuery('todo', () =>
-        fetch('https://hasans-simple-todo-app.herokuapp.com/todos', {
+        fetch(`https://hasans-simple-todo-app.herokuapp.com/todos?userEmail=${user?.email}`, {
             headers: {
                 'authorization': `Bearer ${localStorage.getItem('accessToken')}`
             }
@@ -26,7 +29,7 @@ const Home = () => {
             })
     )
 
-    if (isLoading || data.message === 'Forbidden access') {
+    if (isLoading) {
         return <Loading></Loading>
     }
 
